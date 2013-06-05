@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">Zrušit</string>
+    <string name="save">Uložit</string>
+    <string name="saving_image">Ukládám obrázek</string>
+    <string name="preparing_card">Připravuji kartu</string>
+    <string name="no_storage_card">Žádná SD karta</string>
+    <string name="not_enough_space">Na SD kartě není dostatek místa</string>
+
+</resources>
