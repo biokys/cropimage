@@ -39,7 +39,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CropImage extends MonitoredActivity {
 
-    final int IMAGE_MAX_SIZE = 2048;
+    final int IMAGE_MAX_SIZE = 1024;
 
     private static final String TAG                    = "CropImage";
     public static final  String IMAGE_PATH             = "image-path";
