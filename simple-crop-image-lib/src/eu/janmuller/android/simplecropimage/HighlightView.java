@@ -87,7 +87,7 @@ class HighlightView {
             mContext.getDrawingRect(viewDrawingRect);
             if (mCircle) {
 				
-				canvas.save();
+		canvas.save();
 
                 float width = mDrawRect.width();
                 float height = mDrawRect.height();
@@ -97,7 +97,7 @@ class HighlightView {
                         Path.Direction.CW);
 				mOutlinePaint.setColor(0xFFEF04D6);
                 
-				canvas.clipPath(path, Region.Op.DIFFERENCE);
+		canvas.clipPath(path, Region.Op.DIFFERENCE);
             	canvas.drawRect(viewDrawingRect,
                     hasFocus() ? mFocusPaint : mNoFocusPaint);
 
@@ -105,26 +105,27 @@ class HighlightView {
 
 
             } else {
-				Rect topRect = new Rect(viewDrawingRect.left, viewDrawingRect.top, viewDrawingRect.right, mDrawRect.top );
-	            if (topRect.width() > 0 && topRect.height() > 0) {
-	                canvas.drawRect(topRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
-	            }
-	            Rect bottomRect = new Rect(viewDrawingRect.left, mDrawRect.bottom, viewDrawingRect.right, viewDrawingRect.bottom);
-	            if (bottomRect.width() > 0 && bottomRect.height() > 0) {
-	                canvas.drawRect(bottomRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
-	            }
-	            Rect leftRect = new Rect(viewDrawingRect.left, topRect.bottom, mDrawRect.left, bottomRect.top);
-	            if (leftRect.width() > 0 && leftRect.height() > 0) {
-	                canvas.drawRect(leftRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
-	            }
-	            Rect rightRect = new Rect(mDrawRect.right, topRect.bottom, viewDrawingRect.right, bottomRect.top);
-	            if (rightRect.width() > 0 && rightRect.height() > 0) {
+				
+		Rect topRect = new Rect(viewDrawingRect.left, viewDrawingRect.top, viewDrawingRect.right, mDrawRect.top );
+	        if (topRect.width() > 0 && topRect.height() > 0) {
+	        	canvas.drawRect(topRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
+            	}
+	        Rect bottomRect = new Rect(viewDrawingRect.left, mDrawRect.bottom, viewDrawingRect.right, viewDrawingRect.bottom);
+	        if (bottomRect.width() > 0 && bottomRect.height() > 0) {
+	        	canvas.drawRect(bottomRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
+            	}
+            	Rect leftRect = new Rect(viewDrawingRect.left, topRect.bottom, mDrawRect.left, bottomRect.top);
+	        if (leftRect.width() > 0 && leftRect.height() > 0) {
+	        	canvas.drawRect(leftRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
+    		}
+            	Rect rightRect = new Rect(mDrawRect.right, topRect.bottom, viewDrawingRect.right, bottomRect.top);
+	        if (rightRect.width() > 0 && rightRect.height() > 0) {
 	                canvas.drawRect(rightRect, hasFocus() ? mFocusPaint : mNoFocusPaint);
-	            }
+	        }
 
                 path.addRect(new RectF(mDrawRect), Path.Direction.CW);
             
-				mOutlinePaint.setColor(0xFFFF8A00);    
+		mOutlinePaint.setColor(0xFFFF8A00);    
 
             }
             
