@@ -79,4 +79,4 @@ After doing this, to build issue the following command (again from the root of t
 
 To install the example a running emulator or device, do a:
 
-   adb install -r ./simple-crop-image-example/build/apk/simple-crop-image-example-debug-unaligned.apk
+    adb install -r ./simple-crop-image-example/build/apk/simple-crop-image-example-debug-unaligned.apk
