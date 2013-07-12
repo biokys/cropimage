@@ -17,21 +17,38 @@
 package eu.janmuller.android.simplecropimage;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.concurrent.CountDownLatch;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Path;
+import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Region;
 import android.media.FaceDetector;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
-import java.io.*;
-import java.util.concurrent.CountDownLatch;
 
 
 /**
@@ -603,7 +620,7 @@ public class CropImage extends MonitoredActivity {
 
     public static void showStorageToast(Activity activity) {
 
-        showStorageToast(activity, calculatePicturesRemaining());
+        showStorageToast(activity, calculatePicturesRemaining(activity));
     }
 
     public static void showStorageToast(Activity activity, int remaining) {
@@ -631,14 +648,20 @@ public class CropImage extends MonitoredActivity {
         }
     }
 
-    public static int calculatePicturesRemaining() {
+    public static int calculatePicturesRemaining(Activity activity) {
 
         try {
             /*if (!ImageManager.hasStorage()) {
                 return NO_STORAGE_ERROR;
             } else {*/
-            String storageDirectory =
-                    Environment.getExternalStorageDirectory().toString();
+        	String storageDirectory = "";
+        	String state = Environment.getExternalStorageState();
+        	if (Environment.MEDIA_MOUNTED.equals(state)) {
+        		storageDirectory = Environment.getExternalStorageDirectory().toString();
+        	}
+        	else {
+        		storageDirectory = activity.getFilesDir().toString();
+        	}
             StatFs stat = new StatFs(storageDirectory);
             float remaining = ((float) stat.getAvailableBlocks()
                     * (float) stat.getBlockSize()) / 400000F;
