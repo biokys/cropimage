@@ -111,10 +111,6 @@ public class CropImage extends MonitoredActivity {
 
         mImageView = (CropImageView) findViewById(R.id.image);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-            mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
         showStorageToast(this);
 
         Intent intent = getIntent();
@@ -122,6 +118,10 @@ public class CropImage extends MonitoredActivity {
         if (extras != null) {
 
             if (extras.getString(CIRCLE_CROP) != null) {
+
+        	if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+            		mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        	}
 
                 mCircleCrop = true;
                 mAspectX = 1;
