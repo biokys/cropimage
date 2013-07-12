@@ -1,5 +1,11 @@
 package eu.janmuller.android.simplecropimage.example;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -14,12 +20,12 @@ import android.view.View;
 import android.widget.ImageView;
 import eu.janmuller.android.simplecropimage.CropImage;
 
-import java.io.*;
-
 public class MainActivity extends Activity {
 
     public static final String TAG = "MainActivity";
 
+    public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.jpg";
+    
     public static final int REQUEST_CODE_GALLERY      = 0x1;
     public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
     public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
@@ -50,7 +56,14 @@ public class MainActivity extends Activity {
         });
 
         mImageView = (ImageView) findViewById(R.id.image);
-        mFileTemp = new File(Environment.getExternalStorageDirectory(), "temp_photo.jpg");
+        
+    	String state = Environment.getExternalStorageState();
+    	if (Environment.MEDIA_MOUNTED.equals(state)) {
+    		mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+    	}
+    	else {
+    		mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
+    	}
 
     }
 
@@ -59,10 +72,19 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {
-
-            Uri mImageCaptureUri = Uri.fromFile(mFileTemp);
+        	Uri mImageCaptureUri = null;
+        	String state = Environment.getExternalStorageState();
+        	if (Environment.MEDIA_MOUNTED.equals(state)) {
+        		mImageCaptureUri = Uri.fromFile(mFileTemp);
+        	}
+        	else {
+	        	/*
+	        	 * The solution is taken from here: http://stackoverflow.com/questions/10042695/how-to-get-camera-result-as-a-uri-in-data-folder
+	        	 */
+	        	mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+        	}	
             intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-            intent.putExtra("return-data", false);
+            intent.putExtra("return-data", true);
             startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
         } catch (ActivityNotFoundException e) {
 
